@@ -19,10 +19,10 @@ import server.ServerEntity;
 @Serializable
 public class EntityAddMessage extends AbstractMessage {
 
-    private int id;
-    private Vector3f position;
-    private Quaternion rotation;
-    private int modelID;
+    protected int id;
+    protected Vector3f position;
+    protected Quaternion rotation;
+    protected int modelID;
 
     public EntityAddMessage() {
     }

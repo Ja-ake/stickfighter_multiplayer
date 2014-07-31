@@ -4,10 +4,6 @@
  */
 package server;
 
-import com.jme3.animation.AnimChannel;
-import com.jme3.animation.AnimControl;
-import com.jme3.animation.AnimEventListener;
-import com.jme3.animation.LoopMode;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.FastMath;
@@ -21,10 +17,8 @@ import util.SphericalCoords;
  *
  * @author Rory
  */
-public class ServerPlayer extends ServerEntity implements AnimEventListener {
+public class ServerPlayer extends ServerAnimatedEntity {
 
-    private AnimControl animControl;
-    private AnimChannel animChannel;
     private SphericalCoords facing;
     private HostedConnection player;
 
@@ -34,12 +28,6 @@ public class ServerPlayer extends ServerEntity implements AnimEventListener {
         player.setAttribute("ServerPlayer", this);
 
         facing = new SphericalCoords(1, 0, FastMath.HALF_PI);
-
-        animControl = spatial.getControl(AnimControl.class);
-        animControl.addListener(this);
-        animChannel = animControl.createChannel();
-        animChannel.setAnim("Stand");
-        animChannel.setLoopMode(LoopMode.Loop);
     }
 
     protected PlayerControl getControl() {
@@ -95,6 +83,11 @@ public class ServerPlayer extends ServerEntity implements AnimEventListener {
     }
 
     @Override
+    protected String initialAnimation() {
+        return "Stand";
+    }
+
+    @Override
     protected RigidBodyControl initialPhysicsControl() {
         PlayerControl scc = new PlayerControl(serverMain, 2f, new CapsuleCollisionShape(.8f, 2f), getMass());
 
@@ -136,14 +129,6 @@ public class ServerPlayer extends ServerEntity implements AnimEventListener {
         if (getInput().isPressed("Jump")) {
             getControl().jump();
         }
-    }
-
-    @Override
-    public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
-    }
-
-    @Override
-    public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
     }
 
     public void setAnimation(String name, boolean interrupt) {

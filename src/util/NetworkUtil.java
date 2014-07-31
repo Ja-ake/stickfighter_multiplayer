@@ -16,6 +16,8 @@ public abstract class NetworkUtil {
     public static final int PORT = 1337;
 
     public static void serialize() {
+        Serializer.registerClass(AnimatedEntityAddMessage.class);
+        Serializer.registerClass(AnimationUpdateMessage.class);
         Serializer.registerClass(EntityAddMessage.class);
         Serializer.registerClass(EntityRemoveMessage.class);
         Serializer.registerClass(EntityUpdateMessage.class);

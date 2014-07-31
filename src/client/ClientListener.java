@@ -41,6 +41,8 @@ public class ClientListener implements MessageListener<Client> {
                 gameAppState.getEntityMap().get(((EntityRemoveMessage) m).getId()).remove();
             } else if (m instanceof EntityUpdateMessage) {
                 ((EntityUpdateMessage) m).updateEntity(gameAppState);
+            } else if (m instanceof AnimationUpdateMessage) {
+                ((AnimationUpdateMessage) m).updateEntity(gameAppState);
             } else if (m instanceof ServerJoinMessage) {
                 gameAppState.loadRoom(((ServerJoinMessage) m).getLevelID());
                 gameAppState.setPlayerID(((ServerJoinMessage) m).getPlayerID());

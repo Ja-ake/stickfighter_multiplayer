@@ -15,9 +15,9 @@ import util.ModelCreator;
  */
 public class ClientEntity {
 
-    private int id;
-    private GameAppState gameAppState;
-    private Node spatial;
+    protected int id;
+    protected GameAppState gameAppState;
+    protected Node spatial;
 
     public ClientEntity(GameAppState gameAppState, int id, int modelID) {
         this.gameAppState = gameAppState;
