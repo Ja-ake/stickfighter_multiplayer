@@ -19,10 +19,9 @@ public class TestingMain {
         Logger.getLogger("").setLevel(Level.SEVERE);
         NetworkUtil.serialize();
 
-        ClientMain app2 = new ClientMain();
-        app2.start(JmeContext.Type.Headless);
-
-        ClientMain app3 = new ClientMain();
-        app3.start();
+        for (int i = 0; i < 20; i++) {
+            ClientMain app = new ClientMain();
+            app.start(JmeContext.Type.Headless);
+        }
     }
 }

@@ -11,7 +11,6 @@ import com.jme3.network.HostedConnection;
 import com.jme3.network.Message;
 import com.jme3.network.MessageListener;
 import com.jme3.network.Server;
-import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import messages.InputMessage;
 import messages.ServerJoinMessage;
@@ -23,7 +22,7 @@ import messages.ServerJoinMessage;
 public class ServerListener implements MessageListener<HostedConnection>, ConnectionListener {
 
     private ServerMain serverMain;
-    private Queue<Runnable> messageQueue;
+    private ConcurrentLinkedQueue<Runnable> messageQueue;
 
     public ServerListener(ServerMain serverMain) {
         this.serverMain = serverMain;
@@ -31,21 +30,8 @@ public class ServerListener implements MessageListener<HostedConnection>, Connec
     }
 
     @Override
-    public void messageReceived(final HostedConnection conn, final Message m) {
-        //System.out.println(m);
-        messageQueue.add(new Runnable() {
-            @Override
-            public void run() {
-                if (m instanceof InputMessage) {
-                    ((ServerInputPacket) conn.getAttribute("Input")).add((InputMessage) m);
-                }
-            }
-        });
-    }
-
-    @Override
     public void connectionAdded(Server server, final HostedConnection conn) {
-        //conn.setAttribute("Input", new ServerInputPacket());
+        conn.setAttribute("Input", new ServerInputPacket());
         messageQueue.add(new Runnable() {
             @Override
             public void run() {
@@ -69,9 +55,27 @@ public class ServerListener implements MessageListener<HostedConnection>, Connec
 
     }
 
+    @Override
+    public void messageReceived(final HostedConnection conn, final Message m) {
+        //System.out.println(m);
+        messageQueue.add(new Runnable() {
+            @Override
+            public void run() {
+                if (m instanceof InputMessage) {
+                    if (!conn.attributeNames().contains("Input")) {
+                        System.out.println("Adding InputPacket in Message.run()");
+                        conn.setAttribute("Input", new ServerInputPacket());
+                    }
+                    ((ServerInputPacket) conn.getAttribute("Input")).add((InputMessage) m);
+                }
+            }
+        });
+    }
+
     public void processMessages() {
         for (HostedConnection conn : serverMain.getServer().getConnections()) {
             if (!conn.attributeNames().contains("Input")) {
+                System.out.println("Adding InputPacket");
                 conn.setAttribute("Input", new ServerInputPacket());
             }
             ((ServerInputPacket) conn.getAttribute("Input")).clear();

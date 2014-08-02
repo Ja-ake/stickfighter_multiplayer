@@ -43,11 +43,11 @@ public class PlayerControl extends RigidBodyControl implements PhysicsTickListen
 
     public PlayerControl(Application app, float centerToBottomHeight, CollisionShape colShape, float mass) {
         super(colShape, mass);
-
         this.app = app;
+        this.centerToBottomHeight = centerToBottomHeight;
 
-        jumpSpeedY = 40f;
-        moveSpeed = 0.5f;
+        jumpSpeedY = 45f;
+        moveSpeed = 40f;
         moveSpeedMultiplier = 1;
         moveSlopeSpeed = 0.3f;
         slopeLimitAngle = FastMath.DEG_TO_RAD * 45f;
@@ -58,12 +58,12 @@ public class PlayerControl extends RigidBodyControl implements PhysicsTickListen
         maxStopTimer = 30;
         maxJumpTimer = 20;
 
-        frictionWalk = 0.1f;
-        frictionStop = 10f;
+        frictionWalk = 0.01f;
+        frictionStop = 2f;
         mainWalkInterpolation = 0.7f;
         otherWalkInterpolation = 0.9f;
 
-        this.centerToBottomHeight = centerToBottomHeight;
+        setAngularFactor(0);
 
         app.getStateManager().getState(BulletAppState.class).getPhysicsSpace().addTickListener(this);
     }
@@ -71,7 +71,7 @@ public class PlayerControl extends RigidBodyControl implements PhysicsTickListen
     @Override
     public void update(float tpf) {
         super.update(tpf);
-
+        activate();
         if (spatial != null && newRotation != null) {
             spatial.setLocalRotation(newRotation);
 //            newRotation = null;

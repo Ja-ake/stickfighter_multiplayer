@@ -90,15 +90,8 @@ public class ServerPlayer extends ServerAnimatedEntity {
     @Override
     protected RigidBodyControl initialPhysicsControl() {
         PlayerControl scc = new PlayerControl(serverMain, 2f, new CapsuleCollisionShape(.8f, 2f), getMass());
-
         scc.setDamping(0.5f, 0.5f);
-        scc.setSleepingThresholds(0.7f, 0.7f);
-        scc.setAngularFactor(0);
-        scc.setMoveSpeed(40);
-        scc.setMoveSlopeSpeed(0.3f);
-        scc.setJumpSpeed(45);
         scc.setGravity(new Vector3f(0, -100, 0));
-
         return scc;
     }
 
@@ -147,7 +140,7 @@ public class ServerPlayer extends ServerAnimatedEntity {
         if (getInput() != null) {
             facing = MathEx.rectangularToSpherical(getInput().getFacing());
         }
-        
+
         super.update(tpf);
     }
 }
