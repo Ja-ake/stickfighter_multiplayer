@@ -133,7 +133,9 @@ public class PlayerControl extends RigidBodyControl implements PhysicsTickListen
             if ((angleNormals < slopeLimitAngle)) {
                 //Jump
 //                clearForces();
-                setLinearVelocity(getLinearVelocity().add(Vector3f.UNIT_Y.clone().multLocal(jumpSpeedY).addLocal(additiveJumpSpeed)));
+                setLinearVelocity(getLinearVelocity().setY(jumpSpeedY).add(additiveJumpSpeed));
+                //setLinearVelocity(new Vector3f(getLinearVelocity().x, jumpSpeedY, getLinearVelocity().z).addLocal(additiveJumpSpeed));
+                //setLinearVelocity(getLinearVelocity().add(Vector3f.UNIT_Y.clone().multLocal(jumpSpeedY).addLocal(additiveJumpSpeed)));
 //                physSp.applyImpulse(Vector3f.UNIT_Y.mult(jumpSpeed), Vector3f.ZERO);
                 hasJumped = true;
                 jumpTimer = 1;

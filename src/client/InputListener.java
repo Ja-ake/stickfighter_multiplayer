@@ -6,6 +6,7 @@ package client;
 
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
+import com.jme3.math.FastMath;
 import java.util.ArrayList;
 import java.util.HashMap;
 import messages.InputMessage;
@@ -40,6 +41,12 @@ public class InputListener implements ActionListener, AnalogListener {
         }
         if (downValues.containsKey("Look Right")) {
             facing = facing.addT(downValues.get("Look Right"));
+        }
+        if (facing.p < .2) {
+            facing = facing.setP(.2f);
+        }
+        if (facing.p > Math.PI - .2) {
+            facing = facing.setP(FastMath.PI - .2f);
         }
 
         downValues.remove("Look Up");

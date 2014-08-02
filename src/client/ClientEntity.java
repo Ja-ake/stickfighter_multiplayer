@@ -35,6 +35,10 @@ public class ClientEntity {
     public Vector3f getPosition() {
         return spatial.getLocalTranslation();
     }
+    
+    public Node getSpatial() {
+        return spatial;
+    }
 
     public void remove() {
         gameAppState.getNode().detachChild(spatial);

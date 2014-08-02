@@ -140,32 +140,14 @@ public class ServerPlayer extends ServerAnimatedEntity {
     @Override
     public void update(float tpf) {
         move(tpf);
-        //System.out.println(getPosition());
 
         getControl().setGravity(new Vector3f(0, -100, 0));
         getControl().setRotationInUpdate(new Quaternion().fromAngleAxis(-facing.t + FastMath.HALF_PI, Vector3f.UNIT_Y));
 
-        //Turn View
         if (getInput() != null) {
             facing = MathEx.rectangularToSpherical(getInput().getFacing());
         }
-//        if (getInput() != null) {
-//            setFacing(getFacing().addP(-getInput().getValue("Look Up")));
-//            setFacing(getFacing().addP(getInput().getValue("Look Down")));
-//            setFacing(getFacing().addT(-getInput().getValue("Look Left")));
-//            setFacing(getFacing().addT(getInput().getValue("Look Right")));
-//        }
-
-        //Cap View
-        if (facing.p < .2) {
-            facing = facing.setP(.2f);
-        }
-        if (facing.p > Math.PI - .2) {
-            facing = facing.setP(FastMath.PI - .2f);
-        }
-
-        //Set Camera
-        //serverAppState.getCamera().positionBehind(getPosition().add(0, 3, 0), MathEx.sphericalToRectangular(getFacing()), 10);
+        
         super.update(tpf);
     }
 }

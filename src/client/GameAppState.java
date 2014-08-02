@@ -30,6 +30,7 @@ public class GameAppState extends AbstractAppState {
     private InputListener inputListener;
     private Camera3D camera;
     private int playerID;
+    private Node levelModel;
 
     public GameAppState(ClientMain clientMain) {
         this.clientMain = clientMain;
@@ -57,6 +58,10 @@ public class GameAppState extends AbstractAppState {
     public HashMap<Integer, ClientEntity> getEntityMap() {
         return entityMap;
     }
+    
+    public Node getLevelModel() {
+        return levelModel;
+    }
 
     public Node getNode() {
         return node;
@@ -71,7 +76,7 @@ public class GameAppState extends AbstractAppState {
         super.initialize(stateManager, app);
         node = new Node();
         clientMain.getRootNode().attachChild(node);
-        camera = new Camera3D(clientMain.getCamera());
+        camera = new Camera3D(this);
         initKeys();
         GraphicsManager.createLighting(clientMain, node);
         GraphicsManager.createFilters(clientMain);
@@ -101,7 +106,7 @@ public class GameAppState extends AbstractAppState {
 
     public void loadRoom(int levelID) {
         System.out.println("Loading level " + levelID);
-        Node levelModel = null;
+        levelModel = null;
         switch (levelID) {
             case 0:
                 clientMain.getAssetManager().registerLocator("town.zip", ZipLocator.class);
@@ -122,7 +127,7 @@ public class GameAppState extends AbstractAppState {
     public void render(RenderManager rm) {
         super.render(rm);
         if (entityMap.containsKey(playerID)) {
-            camera.positionBehind(entityMap.get(playerID).getPosition(), inputListener.calculateFacing(camera.getFacing()), 10);
+            camera.positionBehind(entityMap.get(playerID).getPosition().add(0, 1, 0), inputListener.calculateFacing(camera.getFacing()), 10);
         }
     }
 
@@ -131,7 +136,7 @@ public class GameAppState extends AbstractAppState {
         super.update(tpf);
         clientMain.getInputManager().setCursorVisible(false);
         if (entityMap.containsKey(playerID)) {
-            camera.positionBehind(entityMap.get(playerID).getPosition(), inputListener.calculateFacing(camera.getFacing()), 10);
+            camera.positionBehind(entityMap.get(playerID).getPosition().add(0, 1, 0), inputListener.calculateFacing(camera.getFacing()), 10);
         }
         inputListener.sendInputMessage(camera.getFacing());
     }

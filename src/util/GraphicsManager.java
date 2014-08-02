@@ -42,7 +42,7 @@ public class GraphicsManager {
         app.getViewPort().setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
         //Ambient
         AmbientLight al = new AmbientLight();
-        al.setColor(ColorRGBA.White.mult(4f));
+        al.setColor(ColorRGBA.White.mult(8f));
         node.addLight(al);
 
         //Sun
