@@ -21,9 +21,11 @@ public abstract class ServerAnimatedEntity extends ServerEntity implements AnimE
 
     protected AnimControl animControl;
     protected AnimChannel animChannel;
+    protected boolean sendAnimUpdate;
 
     public ServerAnimatedEntity(ServerMain serverMain, Vector3f position) {
         super(serverMain, position);
+        sendAnimUpdate = true;
     }
 
     @Override
@@ -42,7 +44,7 @@ public abstract class ServerAnimatedEntity extends ServerEntity implements AnimE
         animChannel = animControl.createChannel();
         animChannel.setAnim(initialAnimation());
         animChannel.setLoopMode(LoopMode.Loop);
-        
+
         super.init();
     }
 
@@ -50,15 +52,19 @@ public abstract class ServerAnimatedEntity extends ServerEntity implements AnimE
 
     @Override
     public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
+        sendAnimUpdate = true;
     }
 
     @Override
     public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
     }
-    
+
     @Override
     public void update(float tpf) {
         super.update(tpf);
-        serverMain.getServer().broadcast(new AnimationUpdateMessage(this));
+        if (sendAnimUpdate) {
+            serverMain.getServer().broadcast(new AnimationUpdateMessage(this));
+            sendAnimUpdate = false;
+        }
     }
 }

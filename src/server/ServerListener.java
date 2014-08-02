@@ -45,7 +45,7 @@ public class ServerListener implements MessageListener<HostedConnection>, Connec
 
     @Override
     public void connectionAdded(Server server, final HostedConnection conn) {
-        conn.setAttribute("Input", new ServerInputPacket());
+        //conn.setAttribute("Input", new ServerInputPacket());
         messageQueue.add(new Runnable() {
             @Override
             public void run() {
@@ -71,6 +71,9 @@ public class ServerListener implements MessageListener<HostedConnection>, Connec
 
     public void processMessages() {
         for (HostedConnection conn : serverMain.getServer().getConnections()) {
+            if (!conn.attributeNames().contains("Input")) {
+                conn.setAttribute("Input", new ServerInputPacket());
+            }
             ((ServerInputPacket) conn.getAttribute("Input")).clear();
         }
         while (!messageQueue.isEmpty()) {

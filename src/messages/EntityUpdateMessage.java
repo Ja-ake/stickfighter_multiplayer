@@ -36,7 +36,7 @@ public class EntityUpdateMessage extends AbstractMessage {
     public void updateEntity(GameAppState gameAppState) {
         ClientEntity ce = gameAppState.getEntityMap().get(id);
         if (ce == null) {
-            System.out.println("ClientEntity for EntityUpdateMessage does not exist, id: " + id);
+            System.out.println("ClientEntity for EntityUpdateMessage does not exist, id: " + id + ", rest: " + gameAppState.getEntityMap());
             return;
         }
         ce.setPosition(position);

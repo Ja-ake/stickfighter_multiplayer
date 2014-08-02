@@ -14,7 +14,7 @@ import util.NetworkUtil;
 
 /**
  *
- * @author Rory
+ * @author Rory 
  */
 public class ClientMain extends SimpleApplication {
 

@@ -13,6 +13,7 @@ import com.jme3.input.MouseInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.Trigger;
+import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import java.util.HashMap;
 import util.GraphicsManager;
@@ -118,11 +119,19 @@ public class GameAppState extends AbstractAppState {
     }
 
     @Override
+    public void render(RenderManager rm) {
+        super.render(rm);
+        if (entityMap.containsKey(playerID)) {
+            camera.positionBehind(entityMap.get(playerID).getPosition(), inputListener.calculateFacing(camera.getFacing()), 10);
+        }
+    }
+
+    @Override
     public void update(float tpf) {
         super.update(tpf);
         clientMain.getInputManager().setCursorVisible(false);
         if (entityMap.containsKey(playerID)) {
-            camera.positionBehind(entityMap.get(playerID).getPosition(), inputListener.calculateFacing(camera.getFacing()), 20);
+            camera.positionBehind(entityMap.get(playerID).getPosition(), inputListener.calculateFacing(camera.getFacing()), 10);
         }
         inputListener.sendInputMessage(camera.getFacing());
     }

@@ -52,7 +52,7 @@ public class GraphicsManager {
         node.addLight(sun);
 
         //Shadows
-        int shadowMapSize = 1024 * 8;
+        int shadowMapSize = 1024 * 1;
         DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(app.getAssetManager(), shadowMapSize, 3);
         dlsr.setLight(sun);
         app.getViewPort().addProcessor(dlsr);

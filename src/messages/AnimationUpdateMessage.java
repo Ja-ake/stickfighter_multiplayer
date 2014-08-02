@@ -34,11 +34,15 @@ public class AnimationUpdateMessage extends AbstractMessage {
     }
 
     public void updateEntity(GameAppState gameAppState) {
-        ClientAnimatedEntity cae = (ClientAnimatedEntity) gameAppState.getEntityMap().get(id);
-        if (cae == null) {
-            System.out.println("ClientEntity for AnimationUpdateMessage does not exist, id: " + id);
-            return;
+        if (gameAppState.getEntityMap().get(id) instanceof ClientAnimatedEntity) {
+            ClientAnimatedEntity cae = (ClientAnimatedEntity) gameAppState.getEntityMap().get(id);
+            if (cae == null) {
+                System.out.println("ClientEntity for AnimationUpdateMessage does not exist, id: " + id);
+                return;
+            }
+            cae.setAnimation(animation, animationTime, repeat);
+        } else {
+            System.out.println("ERROR: ClientEntity "+id+" is not instance of ClientAnimatedEntity: "+gameAppState.getEntityMap().keySet());
         }
-        cae.setAnimation(animation, animationTime, repeat);
     }
 }

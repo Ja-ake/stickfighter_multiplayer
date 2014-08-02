@@ -76,7 +76,7 @@ public class InputListener implements ActionListener, AnalogListener {
     }
 
     public void sendInputMessage(SphericalCoords facing) {
-        clientMain.getClient().send(new InputMessage(down, pressed, released, downValues, MathEx.sphericalToRectangular(facing)));
+        clientMain.getClient().send(new InputMessage(pressed, released, MathEx.sphericalToRectangular(facing)));
         clear();
     }
 }

@@ -11,6 +11,7 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.network.Network;
 import com.jme3.network.Server;
+import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.system.JmeContext;
 import java.io.IOException;
@@ -60,6 +61,10 @@ public class ServerMain extends SimpleApplication {
         return serverAppState;
     }
 
+    public ServerListener getServerListener() {
+        return serverListener;
+    }
+
     private void loadRoom(int levelID) {
         this.levelID = levelID;
         Node levelModel = null;
@@ -99,10 +104,5 @@ public class ServerMain extends SimpleApplication {
         server.addConnectionListener(serverListener);
 
         System.out.println("Server running.");
-    }
-
-    @Override
-    public void simpleUpdate(float tpf) {
-        serverListener.processMessages();
     }
 }
